@@ -2,13 +2,13 @@
 
 #include <Joystick.h>
 
-CapacitiveSensor touch = CapacitiveSensor(0, 1);
-Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID, JOYSTICK_TYPE_GAMEPAD,
-  1, 0,
-  false, false, true,
-  false, false, false,
-  false, false,
-  false, false, false);
+CapacitiveSensor touch = CapacitiveSensor(0, 1); // 1 is sensor pin
+Joystick_ Joystick(0x03,JOYSTICK_TYPE_JOYSTICK, //ID of HID device, type of joystick,
+  6, 0, //Button count, Hat switch count,
+  false, false, true, //has X axis, has Y axis, has Z axis,
+  false, false, false, // has rotational X axis, has rotational Y axis, has rotational Z axis,
+  false, false, //has rudder, has throttle,
+  false, false, false); //hass accelerator, has break, has steering.
 
 const int potPin = 2;
 int potVal = 0;

@@ -4,7 +4,7 @@ FRC Team 1719's operator control station for the 2018 FIRST POWERUP game.
 ## What it do?
 An Arduino Leonardo emulating a controller interfaces with network tables to update the position of a motorized fader only updating its joystick values when a capacitive touch sensor is triggered.
 
-## Phisical Things Used
+## Physical Things Used
 
 * [Arduino Leonardo](https://store.arduino.cc/usa/arduino-leonardo-with-headers) - A HID compatible arduino.
 * [Sparkfun Motorized Fader](https://www.sparkfun.com/products/10976) - motorized fader.
