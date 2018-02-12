@@ -16,3 +16,4 @@ An Arduino Leonardo emulating a controller interfaces with network tables to upd
 * [CapacitiveSensor Library](https://github.com/PaulStoffregen/CapacitiveSensor) - Library for working with the Capacitive Sensor.
 * [Uni_Mixer](https://github.com/beausilver/uni_mixer/) - Example of using motorized fader.
 * [PyNetworkTables](https://github.com/robotpy/pynetworktables) - Python wrappers for NetworkTables and SmartDashboard.
+* [PySerial](https://github.com/pyserial/pyserial) - Python serial port access library
