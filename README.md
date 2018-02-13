@@ -20,3 +20,4 @@ An Arduino Leonardo emulating a controller interfaces with network tables to upd
 ## Other Examples
 * [Uni_Mixer](https://github.com/beausilver/uni_mixer/) - Example of using motorized fader.
 * [Python Arduino Example](https://github.com/headrotor/Python-Arduino-example/) - example of python interfacing with an Arduino.
+* [Serial Communication between Raspberry Pi & Arduino](https://classes.engineering.wustl.edu/ese205/core/index.php?title=Serial_Communication_between_Raspberry_Pi_%26_Arduino) - WUSTL engineering example of using pyserial.
