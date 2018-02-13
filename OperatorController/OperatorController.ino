@@ -29,6 +29,7 @@ const int led6 = 12;
 
 void setup() {
   // put your setup code here, to run once:
+  Serial.begin();
   pinMode(button1, INPUT_PULLUP);
   pinMode(button2, INPUT_PULLUP);
   pinMode(button3, INPUT_PULLUP);
@@ -41,8 +42,12 @@ void setup() {
 }
 
 int lastButtonState[6] = {0,0,0,0,0,0};
-
 void loop() {
+  if(Serial.available(){
+    r = (Serial.read())
+    print(r)
+  
+  }
   // put your main code here, to run repeatedly:
   for (int index = 0; index < 6; index ++) {
     int currentButtonState = !digitalRead(index + button1);

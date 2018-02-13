@@ -14,6 +14,9 @@ An Arduino Leonardo emulating a controller interfaces with network tables to upd
 ## Digital Things Used
 * [Joystick Library](https://github.com/MHeironimus/ArduinoJoystickLibrary) - Library for emulating HID controller.
 * [CapacitiveSensor Library](https://github.com/PaulStoffregen/CapacitiveSensor) - Library for working with the Capacitive Sensor.
-* [Uni_Mixer](https://github.com/beausilver/uni_mixer/) - Example of using motorized fader.
 * [PyNetworkTables](https://github.com/robotpy/pynetworktables) - Python wrappers for NetworkTables and SmartDashboard.
 * [PySerial](https://github.com/pyserial/pyserial) - Python serial port access library
+
+## Other Examples
+* [Uni_Mixer](https://github.com/beausilver/uni_mixer/) - Example of using motorized fader.
+* [Python Arduino Example](https://github.com/headrotor/Python-Arduino-example/) - example of python interfacing with an Arduino.
