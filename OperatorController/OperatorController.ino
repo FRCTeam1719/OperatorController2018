@@ -21,6 +21,7 @@ int softFader = 0;
 int lastValue = 0;
 
 int TOUCH_THRESHOLD = 2000;
+int BUFFER = 10;
 
 const int button1 = 1;
 const int button2 = 2;
@@ -52,11 +53,44 @@ void setup() {
 
 int lastButtonState[6] = {0,0,0,0,0,0};
 void loop() {
-  if(Serial.available()){
+  if(Serial.available() < 0){
     char t[2];
     Serial.readBytesUntil('\n', t, 2);
     softFader = atoi(t);
-  
+      if(touch.capacitiveSensor(30) < TOUCH_THRESHOLD){
+        Joystick.setButton(7, false);
+
+        //Cap the values before moving
+        if(softFader > faderMax){
+          softFader = faderMax;
+        }
+        if(softFader < faderMin){
+          softFader = faderMin;
+        }
+        print(softFader)
+
+        
+        //Move untill we are close enough with a small buffer for overshoot compensation.
+        if(analogRead(potPin) < softFader - BUFFER){
+          while(analogRead(potPin) < softFader - BUFFER){
+            digitalWrite(faderDirectionPin, HIGH);
+            analogWrite(faderSpeedPin, 255);
+          }
+          analogWrite(faderSpeedPin, 0);
+        }else{
+          while(analogRead(potPin) > softfader + BUFFER){
+            digitalWrite(faderDirectionPin, LOW);
+            analogWrite(faderSpeedPin, 255);
+          }
+          analogWrite(faderSpeedPin, 0);
+        }
+
+        
+      }else{
+        Joystick.setButton(7, true);
+    }
+    
+    
   }
   // put your main code here, to run repeatedly:
   for (int index = 0; index < 6; index ++) {
@@ -74,12 +108,12 @@ void loop() {
 
   
   Joystick.setZAxis(analogRead(potPin));
-  delay(50);
+  delay(50); //Serial delay to make it work nice
   }
 
 
 void calibrateFader(){
-
+  //Ride fader to top, bottom and set limits.
   analogWrite(faderSpeedPin, 255);
   digitalWrite(faderDirectionPin, HIGH);
 

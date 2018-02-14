@@ -15,4 +15,4 @@ while NetworkTables.isConnected():
     #height_encode = b'%d' %height # byte 'double' %regex in height
     height_encode = int(height).to_bytes(2, byteorder='little', signed=True)
     ser.write(ser.write(str(height).encode()))
-    sleep(.1) # Serial delay to make things work nice
+    sleep(.01) # Serial delay to make things work nice
