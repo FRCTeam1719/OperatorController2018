@@ -67,7 +67,6 @@ void loop() {
         if(softFader < faderMin){
           softFader = faderMin;
         }
-        print(softFader)
 
         
         //Move untill we are close enough with a small buffer for overshoot compensation.
@@ -78,7 +77,7 @@ void loop() {
           }
           analogWrite(faderSpeedPin, 0);
         }else{
-          while(analogRead(potPin) > softfader + BUFFER){
+          while(analogRead(potPin) > softFader + BUFFER){
             digitalWrite(faderDirectionPin, LOW);
             analogWrite(faderSpeedPin, 255);
           }
