@@ -8,14 +8,15 @@
 
 class Motor{
 	public:
-		Motor(int InPin1, int InPin2, int PWMPin);
+		Motor(int InPin1, int InPin2, int PWMPin, int offset);
 		
 		void move(int speed);
-		void break;
+		void brake();
 	private:
-		int In1, In2, PWM;
+		int In1, In2, PWM, Offset;
 		
 		void fwd(int speed);
 		void rev(int speed);
 
-}
+};
+#endif

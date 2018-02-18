@@ -12,7 +12,7 @@ Motor::Motor(int In1pin, int In2pin, int PWMpin, int offset)
   pinMode(In2, OUTPUT);
   pinMode(PWM, OUTPUT);
 }
-void Motor::drive(int speed)
+void Motor::move(int speed)
 {
   speed = speed * Offset;
   if (speed>=0) fwd(speed);
