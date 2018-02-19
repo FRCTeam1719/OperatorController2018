@@ -36,8 +36,8 @@ int faderMin;
 int softFader = 512;
 int lastValue = 0;
 
-int TOUCH_THRESHOLD = 75;
-int BUFFER = 20;
+int TOUCH_THRESHOLD = 90;
+int BUFFER = 30;
 
 const int button1 = 2;
 const int button2 = 5;
@@ -125,7 +125,7 @@ void loop() {
 
               }
 
-              long total =  cs_4_2.capacitiveSensor(1);
+              long total =  cs_4_2.capacitiveSensor(3);
               Serial.print(total);                  // print sensor output 1
               Serial.print("\n");
 
@@ -145,7 +145,7 @@ void loop() {
                   //softFader = atoi(t);
 
                   //Cap the values before moving
-                  if (softFader > faderMax) {
+                 /* if (softFader > faderMax) {
                     softFader = faderMax;
                   }
                   if (softFader < faderMin) {
@@ -159,7 +159,7 @@ void loop() {
                     motor1.move(-255);
                   } else {
                     motor1.brake();
-                  }
+                  }*/
                 }
 
 
