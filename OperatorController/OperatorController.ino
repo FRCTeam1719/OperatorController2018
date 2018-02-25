@@ -177,11 +177,11 @@ void loop() {
 
             void calibrateFader() {
               //Ride fader to top, bottom and set limits.
-              motor1.move(-255);
+              motor1.move(255);
 
               delay(250);
               faderMin = analogRead(0);
-              motor1.move(255);
+              motor1.move(-team255);
               delay(250);
               faderMax = analogRead(0);
               motor1.brake();
