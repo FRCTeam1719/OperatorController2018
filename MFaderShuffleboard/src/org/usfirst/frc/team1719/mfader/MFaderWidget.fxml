@@ -1,0 +1,7 @@
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.usfirst.frc.team1719.mfader.MFaderWidget"
+      fx:id="root"
+      minWidth="32" minHeight="48"
+      spacing="4">
+  <Label fx:id="numLabel" text="0.0"/>
+</VBox>
