@@ -181,7 +181,7 @@ void loop() {
 
               delay(250);
               faderMin = analogRead(0);
-              motor1.move(-team255);
+              motor1.move(-255);
               delay(250);
               faderMax = analogRead(0);
               motor1.brake();
