@@ -58,8 +58,8 @@ void setup() {
     cs_4_2.set_CS_AutocaL_Millis(0xFFFFFFFF);
     calibrateFader();
     Serial.begin(9600);
-    while (!Serial)
-        ;
+    /*while (!Serial)
+        ;*/
     pinMode(button1, INPUT_PULLUP);
     pinMode(button2, INPUT_PULLUP);
     pinMode(button3, INPUT_PULLUP);
@@ -125,24 +125,28 @@ void loop() {
     }
     
     long total = cs_4_2.capacitiveSensor(3);
-    Serial.print(total);                  // print sensor output 1
-    Serial.print("\n");
-    
+    //Serial.print(total);                  // print sensor output 1
+    //Serial.print("\n");
+    Serial.begin(9600);
     if (Serial.available() > 1) {
         /* Hack -- we use the high bit to check byte order,
          * effectively using 7-bit bytes of data.
          * 
          * This does not matter, as we only use 0 to 1024 anyway,
          * so it's 2 bytes either way */
+
+        Serial.print(Serial.read());
+        Serial.print("\n");
         b0 = Serial.read();
-        while(b0 & 0x80) {
+        if(b0 & 0x80) {
             b0 = Serial.read();
         }
         softFader = ((Serial.read()&0x0f) << 7) | b0;
     }
+    Serial.end();
     if (total > TOUCH_THRESHOLD) {
         Joystick.setButton(6, HIGH);
-        Serial.print("GO!");
+        //Serial.print("GO!");
         
         motor1.brake();
     } else {
