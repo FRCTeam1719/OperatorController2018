@@ -127,7 +127,6 @@ void loop() {
     long total = cs_4_2.capacitiveSensor(3);
     //Serial.print(total);                  // print sensor output 1
     //Serial.print("\n");
-    Serial.begin(9600);
     if (Serial.available() > 1) {
         /* Hack -- we use the high bit to check byte order,
          * effectively using 7-bit bytes of data.
@@ -143,7 +142,6 @@ void loop() {
         }
         softFader = ((Serial.read()&0x0f) << 7) | b0;
     }
-    Serial.end();
     if (total > TOUCH_THRESHOLD) {
         Joystick.setButton(6, HIGH);
         //Serial.print("GO!");
