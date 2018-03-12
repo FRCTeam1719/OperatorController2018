@@ -12,10 +12,10 @@ int In1 = 11;
 int In2 = 12;
 int PWM = 13;
 int BUFFER = 30;
-
-unsigned int faderMax;
-unsigned int faderMin;
-unsigned int softFader = 0;
+String readString;
+int faderMax;
+int faderMin;
+int softFader = 0;
 int lastValue = 0;
 void setup() {
   // put your setup code here, to run once:
@@ -26,41 +26,35 @@ void setup() {
 }
 unsigned int integerValue = 0; // Max value is 65535
 char incomingByte;
+
+char c[8];
 void loop() {
   // put your main code here, to run repeatedly:
-  if (Serial.available() > 0) {   // something came across serial
-    integerValue = 0;      // throw away previous integerValue
-    while (1) {       // force into a loop until 'n' is received
-      incomingByte = Serial.read();
-      if (incomingByte == '\n') break;   // exit the while(1), we're done receiving
-      if (incomingByte == -1) continue;  // if no characters are in the buffer read() returns -1
-      integerValue *= 10;  // shift left 1 decimal place
-      // convert ASCII to integer, add, and shift left 1 decimal place
-      integerValue = ((incomingByte - 48) + integerValue);
-    }
-    Serial.println(integerValue);   // Do something with the value
-    Serial.println(analogRead(potPin));
-    softFader = integerValue;
-    
-
+  if (Serial.available() > 0) {
+    softFader = Serial.parseInt();
+    Serial.read();
   }
-  Serial.println("SF: " + softFader);
+  Serial.println(softFader);
+  Serial.println(analogRead(potPin));
+  
   if (softFader > faderMax) {
-      softFader = faderMax;
-    }
-    if (softFader < faderMin) {
-      softFader = faderMin;
-    }
-    //Move untill we are close enough with a small buffer for overshoot compensation.
-    if (analogRead(potPin) < softFader - BUFFER) {
+    softFader = faderMax;
+  }
+  if (softFader < faderMin) {
+    softFader = faderMin;
+  }
 
-      motor1.move(255);
-    } else if (analogRead(potPin) > softFader + BUFFER) {
-      motor1.move(-255);
-    } else {
-      motor1.brake();
-    }
+  //Move untill we are close enough with a small buffer for overshoot compensation.
+  if (analogRead(potPin) < softFader - BUFFER) {
+
+    motor1.move(255);
+  } else if (analogRead(potPin) > softFader + BUFFER) {
+    motor1.move(-255);
+  } else {
+    motor1.brake();
+  }
 }
+#if 0
 void updateFader( int softFader ) {
   if (softFader > faderMax) {
     softFader = faderMax;
@@ -78,15 +72,14 @@ void updateFader( int softFader ) {
     motor1.brake();
   }
 }
-
+#endif
 void calibrateFader() {
   //Ride fader to top, bottom and set limits.
-  motor1.move(255);
-
-  delay(250);
-  faderMin = analogRead(0);
   motor1.move(-255);
-  delay(250);
+  delay(300);
+  faderMin = analogRead(0);
+  motor1.move(255);
+  delay(300);
   faderMax = analogRead(0);
   motor1.brake();
 }
