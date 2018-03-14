@@ -18,9 +18,9 @@ while 1:
         break
 
 if len(arduino_ports) > 1:
-    warnings.warn('Multiple Arduinos found - using the first')
+    warnings.warn('Multiple Arduinos found - using the first on ' + str(arduino_ports[0]))
 else:
-    print('Arduino found.')
+    print('Arduino found on .' + str(arduino_ports[0]))
 ser = serial.Serial(arduino_ports[0], 9600)
 
 ser = serial.Serial('COM1', 9600) #The UsbSerial NEEDS to be set to the proper port name.
