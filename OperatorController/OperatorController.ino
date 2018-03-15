@@ -4,7 +4,7 @@
 
 #include <Joystick.h>
 
-CapacitiveSensor cs_4_2 = CapacitiveSensor(0, 1); // 11 is sensor pin
+CapacitiveSensor cs_4_2 = CapacitiveSensor(0, 1); // 1 is sensor pin
 Joystick_ Joystick(0x03, JOYSTICK_TYPE_JOYSTICK, //ID of HID device, type of joystick,
                    7, 0, //Button count, Hat switch count,
                    false, false, true, //has X axis, has Y axis, has Z axis,
@@ -34,14 +34,14 @@ int softFader = 0;
 int lastValue = 0;
 
 int TOUCH_THRESHOLD = 90;
-int BUFFER = 30;
+int BUFFER = 35;
 
-const int button1 = 2;
-const int button2 = 5;
+const int button1 = 9;
+const int button2 = 10;
 const int button3 = 4;
-const int button4 = 9;
-const int button5 = 8;
-const int button6 = 10;
+const int button4 = 2;
+const int button5 = 6;
+const int button6 = 8;
 
 const int led1 = 4;
 const int led5 = 6;
@@ -52,6 +52,11 @@ int currentButtonState;
 int light = 255;
 
 int b0, b1;
+
+const byte numChars = 32;
+char receivedChars[numChars];
+
+boolean newData = false;
 
 void setup() {
   // put your setup code here, to run once:
@@ -82,14 +87,14 @@ void loop() {
       case 0:
         currentButtonState = !digitalRead(button1);
         if (currentButtonState != lastButtonState[0]) {
-          Joystick.setButton(0, currentButtonState);
+          Joystick.setButton(2, currentButtonState);
           lastButtonState[0] = currentButtonState;
           break;
         }
       case 1:
         currentButtonState = !digitalRead(button2);
         if (currentButtonState != lastButtonState[1]) {
-          Joystick.setButton(1, currentButtonState);
+          Joystick.setButton(4, currentButtonState);
           lastButtonState[1] = currentButtonState;
         }
         break;
@@ -103,13 +108,13 @@ void loop() {
       case 3:
         currentButtonState = !digitalRead(button4);
         if (currentButtonState != lastButtonState[3]) {
-          Joystick.setButton(3, currentButtonState);
+          Joystick.setButton(1, currentButtonState);
           lastButtonState[3] = currentButtonState;
         }
       case 4:
         currentButtonState = !digitalRead(button5);
         if (currentButtonState != lastButtonState[4]) {
-          Joystick.setButton(4, currentButtonState);
+          Joystick.setButton(3, currentButtonState);
           lastButtonState[4] = currentButtonState;
         }
         break;
@@ -135,7 +140,10 @@ void loop() {
        so it's 2 bytes either way */
 
     softFader = Serial.parseInt();
+    recvWithStartEndMarkers();
+    softFader = atoi(receivedChars)
     Serial.read();
+    Serial.flush();
 
 
     //Move untill we are close enough with a small buffer for overshoot compensation.
@@ -175,6 +183,41 @@ void loop() {
   Joystick.setZAxis(analogRead(potPin));
   delay(10);    //Serial delay to make it work nice
 }
+
+void recvWithStartEndMarkers() {
+  static boolean recvInProgress = false;
+  static byte ndx = 0;
+  char startMarker = '<';
+  char endMarker = '>';
+  char rc;
+
+  // if (Serial.available() > 0) {
+  while (Serial.available() > 0 && newData == false) {
+    rc = Serial.read();
+
+    if (recvInProgress == true) {
+      if (rc != endMarker) {
+        receivedChars[ndx] = rc;
+        ndx++;
+        if (ndx >= numChars) {
+          ndx = numChars - 1;
+        }
+      }
+      else {
+        receivedChars[ndx] = '\0'; // terminate the string
+        recvInProgress = false;
+        ndx = 0;
+        newData = true;
+      }
+    }
+
+    else if (rc == startMarker) {
+      recvInProgress = true;
+    }
+  }
+}
+
+
 
 void calibrateFader() {
   //Ride fader to top, bottom and set limits.
